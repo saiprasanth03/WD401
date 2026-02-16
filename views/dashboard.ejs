@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard | Smart Task</title>
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="navbar">
+  <h2>SmartTask 🚀</h2>
+  <div>
+    <a href="/logout" class="logout">Logout</a>
+  </div>
+</div>
+
+<!-- Stats Section -->
+<div class="stats">
+  <div class="stat-card">
+    <h3>Total Tasks</h3>
+    <p><%= total %></p>
+  </div>
+  <div class="stat-card">
+    <h3>Completed</h3>
+    <p><%= completed %></p>
+  </div>
+  <div class="stat-card">
+    <h3>Pending</h3>
+    <p><%= pending %></p>
+  </div>
+</div>
+
+<!-- Add Task Section -->
+<div class="add-task">
+  <form action="/tasks/add" method="POST">
+    <input name="title" placeholder="Task Title" required>
+    <input name="category" placeholder="Category" required>
+    <input type="date" name="deadline" required>
+
+    <select name="priority">
+      <option>Low</option>
+      <option>Medium</option>
+      <option>High</option>
+    </select>
+
+    <button>Add Task</button>
+  </form>
+</div>
+
+<!-- Task Grid -->
+<!-- <div class="task-grid">
+  <% tasks.forEach(task => { %>
+    <div class="task-card">
+      <h3><%= task.title %></h3>
+      <p class="category"><%= task.category %></p>
+      <p class="deadline">📅 <%= task.deadline %></p>
+      <p class="priority <%= task.priority.toLowerCase() %>">
+        <%= task.priority %> Priority
+      </p>
+      <a href="/tasks/delete/<%= task.id %>" class="delete-btn">Delete</a>
+    </div>
+  <% }) %>
+</div> -->
+<div class="task-grid">
+  <% tasks.forEach(task => { %>
+    <div class="task-card <%= task.status === 'Completed' ? 'done' : '' %>">
+      
+      <h3><%= task.title %></h3>
+      <p class="category"><%= task.category %></p>
+      <p class="deadline">📅 <%= task.deadline %></p>
+
+      <p class="priority <%= task.priority.toLowerCase() %>">
+        <%= task.priority %> Priority
+      </p>
+
+      <% if(task.status !== 'Completed') { %>
+        <a href="/tasks/complete/<%= task.id %>" class="complete-btn">
+          Mark Completed
+        </a>
+      <% } else { %>
+        <span class="completed-badge">✔ Completed</span>
+      <% } %>
+
+      <a href="/tasks/delete/<%= task.id %>" class="delete-btn">
+        Delete
+      </a>
+
+    </div>
+  <% }) %>
+</div>
+
+
+</body>
+</html>
